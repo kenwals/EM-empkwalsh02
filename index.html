@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engagement Messenger Test - empkwalsh02</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .user-id {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .messenger-box {
+            background: #f7f9fc;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .message:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-header {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .message-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .message-time {
+            color: #999;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f7f9fc;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Engagement Messenger Test</h1>
+        <div class="user-id">User: empkwalsh02</div>
+
+        <div class="messenger-box">
+            <div class="message">
+                <div class="message-header">System Message</div>
+                <div class="message-content">
+                    Welcome to the engagement messenger testing interface. This page is configured for user empkwalsh02.
+                </div>
+                <div class="message-time" id="currentTime"></div>
+            </div>
+
+            <div class="message">
+                <div class="message-header">Test Message 1</div>
+                <div class="message-content">
+                    This is a sample engagement message for testing purposes. You can use this interface to verify message delivery and formatting.
+                </div>
+                <div class="message-time">2 minutes ago</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type a test message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div class="status" id="status">
+            ✓ Messenger connection active
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="messageCount">2</div>
+                <div class="stat-label">Messages</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="responseTime">45ms</div>
+                <div class="stat-label">Avg Response</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Send message functionality
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messengerBox = document.querySelector('.messenger-box');
+                const messageCount = document.getElementById('messageCount');
+                
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message';
+                newMessage.innerHTML = `
+                    <div class="message-header">empkwalsh02</div>
+                    <div class="message-content">${escapeHtml(message)}</div>
+                    <div class="message-time">Just now</div>
+                `;
+                
+                messengerBox.appendChild(newMessage);
+                input.value = '';
+                
+                // Update message count
+                const count = parseInt(messageCount.textContent) + 1;
+                messageCount.textContent = count;
+                
+                // Update status
+                document.getElementById('status').textContent = '✓ Message sent successfully';
+                setTimeout(() => {
+                    document.getElementById('status').textContent = '✓ Messenger connection active';
+                }, 2000);
+            }
+        }
+
+        // Handle Enter key
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
